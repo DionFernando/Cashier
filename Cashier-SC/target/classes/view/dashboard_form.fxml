@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
 <!--<?import javafx.scene.control.*?>-->
-<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.DashboardFormController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="526.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardFormController">
+   <children>
+      <JFXButton buttonType="RAISED" layoutX="41.0" layoutY="72.0" onAction="#popcornBtnOnAction" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: lime;" text="popcorn" />
+      <JFXButton buttonType="RAISED" layoutX="151.0" layoutY="72.0" onAction="#chipsBtnOnAction" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: lime;" text="Chips" />
+      <JFXButton buttonType="RAISED" layoutX="53.0" layoutY="112.0" onAction="#colaOnAction" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: lime;" text="coca" />
+      <JFXButton buttonType="RAISED" layoutX="168.0" layoutY="112.0" onAction="#spriteOnAction" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: lime;" text="Sprite" />
+      <Label layoutX="512.0" layoutY="64.0" text="Total Income  :" />
+      <Label fx:id="lblTotIncome" layoutX="625.0" layoutY="64.0" prefHeight="16.0" prefWidth="87.0" text="lblTotIncome" />
+      <TextField fx:id="txtTot" layoutX="43.0" layoutY="204.0" prefHeight="24.0" prefWidth="216.0" promptText="total" />
+      <JFXButton buttonType="RAISED" layoutX="293.0" layoutY="200.0" onAction="#btnSave" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: lime;" text="Save" />
+      <JFXButton buttonType="RAISED" layoutX="397.0" layoutY="350.0" onAction="#DecrementItemCartOnAction" prefHeight="31.0" prefWidth="51.0" style="-fx-background-color: lime;" text="-">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="590.0" layoutY="457.0" onAction="#logoutBtnOnAction" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: lime;" text="logout" />
+      <TableView fx:id="tblCart" layoutX="40.0" layoutY="263.0" prefHeight="236.0" prefWidth="345.0">
+        <columns>
+          <TableColumn fx:id="colItem" prefWidth="154.0" text="Item" />
+            <TableColumn fx:id="colQty" prefWidth="54.0" text="qty" />
+          <TableColumn fx:id="colPrice" prefWidth="136.0" text="Price" />
+        </columns>
+      </TableView>
+      <JFXButton buttonType="RAISED" layoutX="397.0" layoutY="307.0" onAction="#IncrementItemCartOnAction" prefHeight="31.0" prefWidth="51.0" style="-fx-background-color: lime;" text="+">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+   </children>
 </AnchorPane>
