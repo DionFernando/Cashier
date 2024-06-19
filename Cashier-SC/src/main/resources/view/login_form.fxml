@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <!--<?import javafx.scene.control.*?>-->
 
-<AnchorPane fx:id="root" prefHeight="514.0" prefWidth="438.0" style="-fx-background-color: #210101;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginFormController">
+<AnchorPane fx:id="root" prefHeight="514.0" prefWidth="438.0" style="-fx-background-color: #210101;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginFormController">
    <children>
       <AnchorPane layoutX="38.0" layoutY="50.0" prefHeight="414.0" prefWidth="362.0" style="-fx-background-color: #de6f6f;">
          <children>
@@ -45,5 +47,10 @@
             <Image url="@../assets/movie.png" />
          </image>
       </ImageView>
+      <Label fx:id="lblInfo" alignment="CENTER" contentDisplay="CENTER" layoutX="68.0" layoutY="342.0" prefHeight="21.0" prefWidth="307.0" text="Password" textFill="RED">
+         <font>
+            <Font name="Loma" size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

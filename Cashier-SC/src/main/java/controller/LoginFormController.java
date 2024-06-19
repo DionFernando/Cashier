@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -21,6 +22,7 @@ public class LoginFormController implements Initializable {
     public TextField txtPassword;
     public AnchorPane root;
     public ImageView img;
+    public Label lblInfo;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -28,16 +30,18 @@ public class LoginFormController implements Initializable {
         pulse.setCycleCount(Animation.INDEFINITE);
         pulse.setSpeed(0.3);
         pulse.play();
+
+        lblInfo.setText("");
     }
 
     public void loginBtnOnAction(ActionEvent actionEvent) {
         boolean check = checkUsernameAndPassword();
 
         if (check){
+            lblInfo.setText("Login Success");
             navigateToDashboard();
-            System.out.println("Login Success");
         } else {
-            System.out.println("Login Failed");
+            lblInfo.setText("Login Failed");
         }
     }
 
