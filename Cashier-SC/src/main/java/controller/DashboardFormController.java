@@ -1,17 +1,19 @@
 package controller;
 
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Duration;
 import model.tm.ItemTm;
 
 public class DashboardFormController {
     public Label lblTotIncome;
     public TextField txtTot;
-    public TableView tblCart;
-    public TableColumn colItem;
-    public TableColumn colQty;
-    public TableColumn colPrice;
+    public TableView<ItemTm> tblCart;
+    public TableColumn<ItemTm, String> colItem;
+    public TableColumn<ItemTm, Integer> colQty;
+    public TableColumn<ItemTm, Double> colPrice;
 
     public void initialize() {
         setCellValueFactories();
@@ -26,83 +28,19 @@ public class DashboardFormController {
     }
 
     public void popcornBtnOnAction(ActionEvent actionEvent) {
-        boolean isPopCornExists = false;
-        for (Object item : tblCart.getItems()) {
-            ItemTm itemTm = (ItemTm) item;
-            if (itemTm.getDescription().equals("Popcorn")){
-                itemTm.setQty(itemTm.getQty()+1);
-                itemTm.setPrice(itemTm.getPrice() + 200);
-                isPopCornExists = true;
-                break;
-            }
-        }
-
-        if (!isPopCornExists) {
-            ItemTm itemTm = new ItemTm("Popcorn", 1, 200.00);
-            tblCart.getItems().add(itemTm);
-        }
-
-        tblCart.refresh();
+        addItemToCart("Popcorn", 200);
     }
 
     public void chipsBtnOnAction(ActionEvent actionEvent) {
-        boolean isChipsExists = false;
-        for (Object item : tblCart.getItems()) {
-            ItemTm itemTm = (ItemTm) item;
-            if (itemTm.getDescription().equals("Chips")){
-                itemTm.setQty(itemTm.getQty()+1);
-                itemTm.setPrice(itemTm.getPrice() + 100);
-                isChipsExists = true;
-                break;
-            }
-        }
-
-        if (!isChipsExists) {
-            ItemTm itemTm = new ItemTm("Chips", 1, 100.00);
-            tblCart.getItems().add(itemTm);
-        }
-
-        tblCart.refresh();
+        addItemToCart("Chips", 100);
     }
 
     public void colaOnAction(ActionEvent actionEvent) {
-        boolean isCocacolaExists = false;
-        for (Object item : tblCart.getItems()) {
-            ItemTm itemTm = (ItemTm) item;
-            if (itemTm.getDescription().equals("Cocacola")){
-                itemTm.setQty(itemTm.getQty()+1);
-                itemTm.setPrice(itemTm.getPrice() + 300);
-                isCocacolaExists = true;
-                break;
-            }
-        }
-
-        if (!isCocacolaExists) {
-            ItemTm itemTm = new ItemTm("Cocacola", 1, 300.00);
-            tblCart.getItems().add(itemTm);
-        }
-
-        tblCart.refresh();
+        addItemToCart("Cocacola", 300);
     }
 
     public void spriteOnAction(ActionEvent actionEvent) {
-        boolean isSpiteExists = false;
-        for (Object item : tblCart.getItems()) {
-            ItemTm itemTm = (ItemTm) item;
-            if (itemTm.getDescription().equals("Sprite")){
-                itemTm.setQty(itemTm.getQty()+1);
-                itemTm.setPrice(itemTm.getPrice() + 300);
-                isSpiteExists = true;
-                break;
-            }
-        }
-
-        if (!isSpiteExists) {
-            ItemTm itemTm = new ItemTm("Sprite", 1, 300.00);
-            tblCart.getItems().add(itemTm);
-        }
-
-        tblCart.refresh();
+        addItemToCart("Sprite", 300);
     }
 
     public void btnSave(ActionEvent actionEvent) {
@@ -116,6 +54,26 @@ public class DashboardFormController {
 
     public void IncrementItemCartOnAction(ActionEvent actionEvent) {
     }
+
+    private void addItemToCart(String description, double price) {
+        boolean isItemExists = false;
+        for (ItemTm itemTm : tblCart.getItems()) {
+            if (itemTm.getDescription().equals(description)) {
+                itemTm.setQty(itemTm.getQty() + 1);
+                itemTm.setPrice(itemTm.getPrice() + price);
+                isItemExists = true;
+                break;
+            }
+        }
+
+        if (!isItemExists) {
+            ItemTm itemTm = new ItemTm(description, 1, price);
+            tblCart.getItems().add(itemTm);
+        }
+        setTotal();
+        tblCart.refresh();
+    }
+
     private void addRowSwipeActionToTable(TableView<ItemTm> table) {
         table.setRowFactory(tv -> {
             TableRow<ItemTm> row = new TableRow<>();
@@ -126,32 +84,53 @@ public class DashboardFormController {
                 }
             });
 
+            row.setOnMouseDragged(event -> {
+                if (!row.isEmpty()) {
+                    double[] startCoords = (double[]) row.getUserData();
+                    double deltaX = event.getSceneX() - startCoords[0];
+                    row.setTranslateX(deltaX);
+
+                    // Update row color based on swipe direction
+                    if (deltaX > 0) {
+                        row.setStyle("-fx-background-color: lightgreen;");
+                    } else {
+                        row.setStyle("-fx-background-color: lightcoral;");
+                    }
+                }
+            });
+
             row.setOnMouseReleased(event -> {
                 if (!row.isEmpty()) {
                     double[] startCoords = (double[]) row.getUserData();
                     double endX = event.getSceneX();
-                    double endY = event.getSceneY();
-
                     double deltaX = endX - startCoords[0];
-                    double deltaY = endY - startCoords[1];
 
-                    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    TranslateTransition transition = new TranslateTransition(Duration.millis(300), row);
+
+                    if (Math.abs(deltaX) > 50) { // Detect swipe if moved more than 50 pixels
                         if (deltaX > 0) {
-                            System.out.println("Swiped right on " + row.getItem().getDescription());
+                            // Swipe right
                             incrementItemQty(row.getItem());
                         } else {
-                            System.out.println("Swiped left on " + row.getItem().getDescription());
+                            // Swipe left
                             decrementItemQty(row.getItem());
                         }
+                        transition.setToX(0); // Reset position after swipe action
+                    } else {
+                        transition.setToX(0); // Reset position if not a swipe
                     }
+                    transition.play();
+
+                    // Reset row style after the transition
+                    transition.setOnFinished(e -> row.setStyle(""));
                 }
             });
 
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
-                    System.out.println("Double clicked on " + row.getItem().getDescription());
                     tblCart.getItems().remove(row.getItem());
                     tblCart.refresh();
+                    setTotal();
                 }
             });
 
@@ -162,6 +141,7 @@ public class DashboardFormController {
     private void incrementItemQty(ItemTm item) {
         item.setQty(item.getQty() + 1);
         item.setPrice(item.getPrice() + getPriceIncrement(item.getDescription()));
+        setTotal();
         tblCart.refresh();
     }
 
@@ -172,6 +152,7 @@ public class DashboardFormController {
         } else {
             tblCart.getItems().remove(item);
         }
+        setTotal();
         tblCart.refresh();
     }
 
@@ -183,5 +164,13 @@ public class DashboardFormController {
             case "Sprite": return 300;
             default: return 0;
         }
+    }
+
+    private void setTotal() {
+        double total = 0;
+        for (ItemTm item : tblCart.getItems()) {
+            total += item.getPrice();
+        }
+        txtTot.setText(String.valueOf(total));
     }
 }
