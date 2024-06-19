@@ -1,10 +1,7 @@
 package controller;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.tm.ItemTm;
 
@@ -24,6 +21,8 @@ public class DashboardFormController {
         colItem.setCellValueFactory(new PropertyValueFactory<>("description"));
         colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        addRowSwipeActionToTable(tblCart);
     }
 
     public void popcornBtnOnAction(ActionEvent actionEvent) {
@@ -116,5 +115,65 @@ public class DashboardFormController {
     }
 
     public void IncrementItemCartOnAction(ActionEvent actionEvent) {
+    }
+    private void addRowSwipeActionToTable(TableView<ItemTm> table) {
+        table.setRowFactory(tv -> {
+            TableRow<ItemTm> row = new TableRow<>();
+
+            row.setOnMousePressed(event -> {
+                if (!row.isEmpty()) {
+                    row.setUserData(new double[] { event.getSceneX(), event.getSceneY() });
+                }
+            });
+
+            row.setOnMouseReleased(event -> {
+                if (!row.isEmpty()) {
+                    double[] startCoords = (double[]) row.getUserData();
+                    double endX = event.getSceneX();
+                    double endY = event.getSceneY();
+
+                    double deltaX = endX - startCoords[0];
+                    double deltaY = endY - startCoords[1];
+
+                    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                        if (deltaX > 0) {
+                            System.out.println("Swiped right on " + row.getItem().getDescription());
+                            incrementItemQty(row.getItem());
+                        } else {
+                            System.out.println("Swiped left on " + row.getItem().getDescription());
+                            decrementItemQty(row.getItem());
+                        }
+                    }
+                }
+            });
+
+            return row;
+        });
+    }
+
+    private void incrementItemQty(ItemTm item) {
+        item.setQty(item.getQty() + 1);
+        item.setPrice(item.getPrice() + getPriceIncrement(item.getDescription()));
+        tblCart.refresh();
+    }
+
+    private void decrementItemQty(ItemTm item) {
+        if (item.getQty() > 1) {
+            item.setQty(item.getQty() - 1);
+            item.setPrice(item.getPrice() - getPriceIncrement(item.getDescription()));
+        } else {
+            tblCart.getItems().remove(item);
+        }
+        tblCart.refresh();
+    }
+
+    private double getPriceIncrement(String description) {
+        switch (description) {
+            case "Popcorn": return 200;
+            case "Chips": return 100;
+            case "Cocacola": return 300;
+            case "Sprite": return 300;
+            default: return 0;
+        }
     }
 }
