@@ -1,19 +1,34 @@
 package controller;
 
+import animatefx.animation.Pulse;
+import javafx.animation.Animation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginFormController {
+public class LoginFormController implements Initializable {
     public TextField txtUsername;
     public TextField txtPassword;
     public AnchorPane root;
+    public ImageView img;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Pulse pulse = new Pulse(img);
+        pulse.setCycleCount(Animation.INDEFINITE);
+        pulse.setSpeed(0.3);
+        pulse.play();
+    }
 
     public void loginBtnOnAction(ActionEvent actionEvent) {
         boolean check = checkUsernameAndPassword();
