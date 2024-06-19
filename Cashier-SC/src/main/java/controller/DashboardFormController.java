@@ -1,9 +1,13 @@
 package controller;
 
+import animatefx.animation.Pulse;
+import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.skin.TableHeaderRow;
+import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import model.tm.ItemTm;
 
@@ -14,9 +18,36 @@ public class DashboardFormController {
     public TableColumn<ItemTm, String> colItem;
     public TableColumn<ItemTm, Integer> colQty;
     public TableColumn<ItemTm, Double> colPrice;
+    public ImageView imgChips;
+    public ImageView imgPopcorn;
+    public ImageView imgSprite;
+    public ImageView imgCoke;
 
     public void initialize() {
         setCellValueFactories();
+
+        Pulse pulse = new Pulse(imgCoke);
+        pulse.setCycleCount(Animation.INDEFINITE);
+        pulse.setSpeed(0.3);
+        pulse.play();
+
+        pulse = new Pulse(imgSprite);
+        pulse.setCycleCount(Animation.INDEFINITE);
+        pulse.setSpeed(0.3);
+        pulse.play();
+
+        pulse = new Pulse(imgPopcorn);
+        pulse.setCycleCount(Animation.INDEFINITE);
+        pulse.setSpeed(0.3);
+        pulse.play();
+
+        pulse = new Pulse(imgChips);
+        pulse.setCycleCount(Animation.INDEFINITE);
+        pulse.setSpeed(0.3);
+        pulse.play();
+
+        lblTotIncome.setText("");
+
     }
 
     private void setCellValueFactories() {
