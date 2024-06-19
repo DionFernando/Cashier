@@ -46,7 +46,9 @@ public class LoginFormController {
         String password = txtPassword.getText();
 
         if (username.equals("cashier") && password.equals("sc123")) {
+            System.out.println("Login Success");
             return true;
+
         } else {
             return false;
         }
