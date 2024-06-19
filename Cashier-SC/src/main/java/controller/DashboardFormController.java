@@ -51,7 +51,7 @@ public class DashboardFormController {
             ItemTm itemTm = (ItemTm) item;
             if (itemTm.getDescription().equals("Chips")){
                 itemTm.setQty(itemTm.getQty()+1);
-                itemTm.setPrice(itemTm.getPrice() + 200);
+                itemTm.setPrice(itemTm.getPrice() + 100);
                 isChipsExists = true;
                 break;
             }
