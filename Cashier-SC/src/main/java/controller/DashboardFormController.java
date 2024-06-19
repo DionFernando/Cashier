@@ -147,6 +147,14 @@ public class DashboardFormController {
                 }
             });
 
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                    System.out.println("Double clicked on " + row.getItem().getDescription());
+                    tblCart.getItems().remove(row.getItem());
+                    tblCart.refresh();
+                }
+            });
+
             return row;
         });
     }
