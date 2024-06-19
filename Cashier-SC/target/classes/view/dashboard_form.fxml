@@ -81,7 +81,7 @@
          <font>
             <Font name="Loma" size="13.0" />
          </font></TextField>
-      <JFXButton buttonType="RAISED" layoutX="406.0" layoutY="221.0" onAction="#btnSave" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: #56f07f; -fx-background-radius: 10 0 10 0;" text="Save" textFill="#170000">
+      <JFXButton buttonType="RAISED" layoutX="406.0" layoutY="221.0" onAction="#btnSave" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: #0e9953; -fx-background-radius: 10 0 10 0;" text="Save" textFill="#170000">
          <font>
             <Font name="Loma Bold" size="13.0" />
          </font></JFXButton>

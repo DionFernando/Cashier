@@ -1,6 +1,7 @@
 package controller;
 
 import animatefx.animation.Pulse;
+import com.jfoenix.controls.JFXButton;
 import javafx.animation.Animation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -23,6 +25,7 @@ public class LoginFormController implements Initializable {
     public AnchorPane root;
     public ImageView img;
     public Label lblInfo;
+    public JFXButton btnLogin;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -32,6 +35,24 @@ public class LoginFormController implements Initializable {
         pulse.play();
 
         lblInfo.setText("");
+
+        keyEvent();
+    }
+
+    private void keyEvent() {
+        txtUsername.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                txtPassword.requestFocus();
+            }
+        });
+
+        txtPassword.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                // Assuming loginBtn is the fx:id of your login button
+                btnLogin.fire();
+            }
+        });
+
     }
 
     public void loginBtnOnAction(ActionEvent actionEvent) {

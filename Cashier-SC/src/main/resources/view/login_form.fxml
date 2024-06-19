@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -22,11 +23,7 @@
                <font>
                   <Font name="Loma" size="11.0" />
                </font></TextField>
-            <TextField fx:id="txtPassword" layoutX="33.0" layoutY="175.0" prefHeight="26.0" prefWidth="307.0" promptText="Password" style="-fx-background-color: #fad7d7;">
-               <font>
-                  <Font name="Loma" size="11.0" />
-               </font></TextField>
-            <JFXButton buttonType="RAISED" layoutX="33.0" layoutY="252.0" onAction="#loginBtnOnAction" prefHeight="26.0" prefWidth="307.0" style="-fx-background-color: #4a0202; -fx-background-radius: 10 0 10 0;" text="Login" textFill="WHITE">
+            <JFXButton fx:id="btnLogin" buttonType="RAISED" layoutX="33.0" layoutY="252.0" onAction="#loginBtnOnAction" prefHeight="26.0" prefWidth="307.0" style="-fx-background-color: #4a0202; -fx-background-radius: 10 0 10 0;" text="Login" textFill="WHITE">
                <font>
                   <Font name="Loma Bold" size="12.0" />
                </font></JFXButton>
@@ -40,6 +37,11 @@
                   <Font name="Loma" size="13.0" />
                </font>
             </Label>
+            <PasswordField fx:id="txtPassword" layoutX="33.0" layoutY="183.0" prefHeight="24.0" prefWidth="307.0" promptText="Password" style="-fx-background-color: #fad7d7;">
+               <font>
+                  <Font name="Loma" size="11.0" />
+               </font>
+            </PasswordField>
          </children>
       </AnchorPane>
       <ImageView fx:id="img" fitHeight="187.0" fitWidth="307.0" layoutX="-46.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-18.0" AnchorPane.leftAnchor="-46.0">
