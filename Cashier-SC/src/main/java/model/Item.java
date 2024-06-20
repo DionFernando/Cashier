@@ -12,4 +12,9 @@ public class Item {
     private int itemCode;
     private String description;
     private double totalPrice;
+
+    public Item(String description, double Income) {
+        this.description = description;
+        this.totalPrice = Income;
+    }
 }

@@ -6,6 +6,7 @@ import model.Total;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class TotalRepo {
 
@@ -28,14 +29,27 @@ public class TotalRepo {
 
 
     public int getSaleCount() {
+        int totalSalesCount = 0;
+
         try {
             Connection connection = DbConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT total_sales_count FROM total_sales WHERE id = 1");
-            return preparedStatement.executeQuery().getInt(1);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                totalSalesCount = resultSet.getInt("total_sales_count");
+            } else {
+                System.err.println("No data found for id = 1");
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL exception occurred while retrieving total sales count.");
+            e.printStackTrace();
         } catch (Exception e) {
-            return 0;
+            System.err.println("Unexpected exception occurred while retrieving total sales count.");
+            e.printStackTrace();
         }
+        return totalSalesCount;
     }
+
 
     public double getSaleTotal() {
         try {
@@ -51,6 +65,7 @@ public class TotalRepo {
 
             return 0;
         } catch (Exception e) {
+            e.printStackTrace();
             return 0;
         }
     }

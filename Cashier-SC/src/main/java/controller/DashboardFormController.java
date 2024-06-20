@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import model.Item;
 import model.Total;
 import model.tm.ItemTm;
 import repository.ItemRepo;
@@ -123,27 +124,71 @@ public class DashboardFormController {
 
         double totalIncome = 0;
         int totalSaleCount = totalRepo.getSaleCount()+1;
-        for (ItemTm item : tblCart.getItems()) {
-            totalIncome += item.getPrice();
+        double popcornIncome = 0;
+        double chipsIncome = 0;
+        double cokeIncome = 0;
+        double spriteIncome = 0;
+
+        try {
+            for (ItemTm item : tblCart.getItems()) {
+                totalIncome += item.getPrice();
+                switch (item.getDescription()) {
+                    case "Popcorn":
+                        popcornIncome += item.getPrice();
+                        itemRepo.updateItemIncome(new Item("Popcorn", popcornIncome));
+                        break;
+                    case "Chips":
+                        chipsIncome += item.getPrice();
+                        itemRepo.updateItemIncome(new Item("Chips", chipsIncome));
+                        break;
+                    case "Cocacola":
+                        cokeIncome += item.getPrice();
+                        itemRepo.updateItemIncome(new Item("Coke", cokeIncome));
+                        break;
+                    case "Sprite":
+                        spriteIncome += item.getPrice();
+                        itemRepo.updateItemIncome(new Item("Sprite", spriteIncome));
+                        break;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
 
         Total total = new Total(totalSaleCount, totalIncome);
         totalRepo.saveOrUpdateTotalSales(total);
 
         Double income = totalRepo.getSaleTotal();
+        int salesCount = totalRepo.getSaleCount();
         lblTotIncome.setText(String.format("Total Income: Rs. %.2f", income));
+        lblTotSaleCount.setText(String.format("Total Sale Count: %d", salesCount));
+
+        Double popcorn = null;
+        Double chips = null;
+        Double coke = null;
+        Double sprite = null;
+
+        try {
+            popcorn = itemRepo.getItemIncome("Popcorn");
+            chips = itemRepo.getItemIncome("Chips");
+            coke = itemRepo.getItemIncome("Coke");
+            sprite = itemRepo.getItemIncome("Sprite");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        lblPopcornIncome.setText(String.format("Popcorn Income: Rs. %.2f", popcorn));
+        lblChipsIncome.setText(String.format("Chips Income: Rs. %.2f", chips));
+        lblCokeIncome.setText(String.format("Cocacola Income: Rs. %.2f", coke));
+        lblSpriteIncome.setText(String.format("Sprite Income: Rs. %.2f", sprite));
+
 
         tblCart.getItems().clear();
         txtTot.clear();
     }
 
-    public void DecrementItemCartOnAction(ActionEvent actionEvent) {
-    }
-
     public void logoutBtnOnAction(ActionEvent actionEvent) {
-    }
-
-    public void IncrementItemCartOnAction(ActionEvent actionEvent) {
     }
 
     private void addItemToCart(String description, double price) {
@@ -181,7 +226,6 @@ public class DashboardFormController {
                     double deltaX = event.getSceneX() - startCoords[0];
                     row.setTranslateX(deltaX);
 
-                    // Update row color based on swipe direction
                     if (deltaX > 0) {
                         row.setStyle("-fx-background-color: lightgreen;");
                     } else {
@@ -198,21 +242,19 @@ public class DashboardFormController {
 
                     TranslateTransition transition = new TranslateTransition(Duration.millis(300), row);
 
-                    if (Math.abs(deltaX) > 50) { // Detect swipe if moved more than 50 pixels
+                    if (Math.abs(deltaX) > 50) {
                         if (deltaX > 0) {
-                            // Swipe right
                             incrementItemQty(row.getItem());
                         } else {
-                            // Swipe left
                             decrementItemQty(row.getItem());
                         }
-                        transition.setToX(0); // Reset position after swipe action
+                        transition.setToX(0);
                     } else {
-                        transition.setToX(0); // Reset position if not a swipe
+                        transition.setToX(0);
                     }
                     transition.play();
 
-                    // Reset row style after the transition
+
                     transition.setOnFinished(e -> row.setStyle(""));
                 }
             });

@@ -1,6 +1,7 @@
 package repository;
 
 import db.DbConnection;
+import model.Item;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -50,4 +51,15 @@ public class ItemRepo {
         return income;
     }
 
+    public void updateItemIncome(Item item) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE total_per_item SET total=total+? WHERE item_name=?");
+            preparedStatement.setDouble(1, item.getTotalPrice());
+            preparedStatement.setString(2, item.getDescription());
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
