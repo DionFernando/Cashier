@@ -15,7 +15,7 @@ public class TotalRepo {
             Connection connection = DbConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO total_sales (id, total_sales_count, total_sales) VALUES (1, ?, ?) " +
-                            "ON DUPLICATE KEY UPDATE total_sales_count = total_sales_count + ?, total_sales = total_sales + ?"
+                            "ON DUPLICATE KEY UPDATE total_sales_count =?, total_sales = total_sales + ?"
             );
             preparedStatement.setInt(1, total.getTotalCount());
             preparedStatement.setDouble(2, total.getTotalSales());

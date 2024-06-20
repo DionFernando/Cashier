@@ -123,11 +123,11 @@ public class DashboardFormController {
     public void btnSave(ActionEvent actionEvent) {
 
         double totalIncome = 0;
-        int totalSaleCount = totalRepo.getSaleCount()+1;
         double popcornIncome = 0;
         double chipsIncome = 0;
         double cokeIncome = 0;
         double spriteIncome = 0;
+        int totalSaleCount = totalRepo.getSaleCount();
 
         try {
             for (ItemTm item : tblCart.getItems()) {
@@ -155,6 +155,9 @@ public class DashboardFormController {
             throw new RuntimeException(e);
         }
 
+        if (!tblCart.getItems().isEmpty()) {
+            totalSaleCount =totalSaleCount+1;
+        }
 
         Total total = new Total(totalSaleCount, totalIncome);
         totalRepo.saveOrUpdateTotalSales(total);
