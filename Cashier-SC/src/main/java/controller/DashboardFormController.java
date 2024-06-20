@@ -11,7 +11,10 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import model.Total;
 import model.tm.ItemTm;
+import repository.ItemRepo;
 import repository.TotalRepo;
+
+import java.sql.SQLException;
 
 public class DashboardFormController {
     public Label lblTotIncome;
@@ -24,7 +27,13 @@ public class DashboardFormController {
     public ImageView imgPopcorn;
     public ImageView imgSprite;
     public ImageView imgCoke;
+    public Label lblPopcornIncome;
+    public Label lblChipsIncome;
+    public Label lblCokeIncome;
+    public Label lblSpriteIncome;
+    public Label lblTotSaleCount;
     TotalRepo totalRepo = new TotalRepo();
+    ItemRepo itemRepo = new ItemRepo();
 
     public void initialize() {
         setCellValueFactories();
@@ -49,18 +58,41 @@ public class DashboardFormController {
         pulse.setSpeed(0.3);
         pulse.play();
 
-        Platform.runLater(() -> {
-            System.out.println("Total Income: " + totalRepo.getSaleTotal());
-            lblTotIncome.setText(String.format("Total Income: Rs. %.2f", totalRepo.getSaleTotal()));
-
-        }
-        );
-
         tblCart.setFixedCellSize(35);
         tblCart.prefHeightProperty().bind(tblCart.fixedCellSizeProperty().multiply(5.5));
         tblCart.setStyle("-fx-font-size: 15px; -fx-font-family: 'URW Gothic L';");
 
-        //increase zoom when the window is maximized
+        Platform.runLater(() -> {
+            try {
+                itemRepo.checkEmptyAndInsert();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            lblTotSaleCount.setText(String.format("Total Sale Count: %d", totalRepo.getSaleCount()));
+                    lblTotIncome.setText(String.format("Total Income: Rs. %.2f", totalRepo.getSaleTotal()));
+            try {
+                lblPopcornIncome.setText(String.format("Popcorn Income: Rs. %.2f", itemRepo.getItemIncome("Popcorn")));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                lblChipsIncome.setText(String.format("Chips Income: Rs. %.2f", itemRepo.getItemIncome("Chips")));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                lblCokeIncome.setText(String.format("Cocacola Income: Rs. %.2f", itemRepo.getItemIncome("Cocacola")));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+                    try {
+                        lblSpriteIncome.setText(String.format("Sprite Income: Rs. %.2f", itemRepo.getItemIncome("Sprite")));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
     }
 
     private void setCellValueFactories() {
