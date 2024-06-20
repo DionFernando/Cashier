@@ -3,15 +3,14 @@ package controller;
 import animatefx.animation.Pulse;
 import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.skin.TableHeaderRow;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import model.Total;
 import model.tm.ItemTm;
-import repository.ItemRepo;
 import repository.TotalRepo;
 
 public class DashboardFormController {
@@ -50,7 +49,17 @@ public class DashboardFormController {
         pulse.setSpeed(0.3);
         pulse.play();
 
-        lblTotIncome.setText("");
+        Platform.runLater(() -> {
+            System.out.println("Total Income: " + totalRepo.getSaleTotal());
+            lblTotIncome.setText(String.format("Total Income: Rs. %.2f", totalRepo.getSaleTotal()));
+
+        }
+        );
+
+        tblCart.setFixedCellSize(35);
+        tblCart.prefHeightProperty().bind(tblCart.fixedCellSizeProperty().multiply(5.5));
+        tblCart.setStyle("-fx-font-size: 15px; -fx-font-family: 'URW Gothic L';");
+
 
     }
 
@@ -80,17 +89,20 @@ public class DashboardFormController {
 
     public void btnSave(ActionEvent actionEvent) {
 
-        double totalIncome = totalRepo.getSaleTotal();
+        double totalIncome = 0;
         int totalSaleCount = totalRepo.getSaleCount()+1;
         for (ItemTm item : tblCart.getItems()) {
             totalIncome += item.getPrice();
         }
-        lblTotIncome.setText(String.format("Total Income: Rs. %.2f", totalIncome));
 
         Total total = new Total(totalSaleCount, totalIncome);
         totalRepo.saveOrUpdateTotalSales(total);
 
+        Double income = totalRepo.getSaleTotal();
+        lblTotIncome.setText(String.format("Total Income: Rs. %.2f", income));
 
+        tblCart.getItems().clear();
+        txtTot.clear();
     }
 
     public void DecrementItemCartOnAction(ActionEvent actionEvent) {
