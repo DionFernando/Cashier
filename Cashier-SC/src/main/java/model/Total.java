@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-
-public class Item {
-    private int itemCode;
-    private String description;
-    private double totalPrice;
+public class Total {
+    int totalCount;
+    double totalSales;
 }

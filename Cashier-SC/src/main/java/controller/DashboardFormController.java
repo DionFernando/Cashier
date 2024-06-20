@@ -9,7 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.skin.TableHeaderRow;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import model.Total;
 import model.tm.ItemTm;
+import repository.ItemRepo;
+import repository.TotalRepo;
 
 public class DashboardFormController {
     public Label lblTotIncome;
@@ -22,6 +25,7 @@ public class DashboardFormController {
     public ImageView imgPopcorn;
     public ImageView imgSprite;
     public ImageView imgCoke;
+    TotalRepo totalRepo = new TotalRepo();
 
     public void initialize() {
         setCellValueFactories();
@@ -75,6 +79,18 @@ public class DashboardFormController {
     }
 
     public void btnSave(ActionEvent actionEvent) {
+
+        double totalIncome = totalRepo.getSaleTotal();
+        int totalSaleCount = totalRepo.getSaleCount()+1;
+        for (ItemTm item : tblCart.getItems()) {
+            totalIncome += item.getPrice();
+        }
+        lblTotIncome.setText(String.format("Total Income: Rs. %.2f", totalIncome));
+
+        Total total = new Total(totalSaleCount, totalIncome);
+        totalRepo.saveOrUpdateTotalSales(total);
+
+
     }
 
     public void DecrementItemCartOnAction(ActionEvent actionEvent) {
