@@ -60,7 +60,7 @@ public class DashboardFormController {
         tblCart.prefHeightProperty().bind(tblCart.fixedCellSizeProperty().multiply(5.5));
         tblCart.setStyle("-fx-font-size: 15px; -fx-font-family: 'URW Gothic L';");
 
-
+        //increase zoom when the window is maximized
     }
 
     private void setCellValueFactories() {

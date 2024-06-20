@@ -3,6 +3,7 @@ package controller;
 import animatefx.animation.Pulse;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.Animation;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -80,6 +81,8 @@ public class LoginFormController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
+
 
     private boolean checkUsernameAndPassword() {
         String username = txtUsername.getText();
