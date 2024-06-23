@@ -1,6 +1,7 @@
 package controller;
 
 import animatefx.animation.Pulse;
+import com.jfoenix.controls.JFXButton;
 import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -8,11 +9,14 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import model.Item;
 import model.Total;
 import model.tm.ItemTm;
+import repository.ExpenseRepo;
 import repository.ItemRepo;
+import repository.SpendRepo;
 import repository.TotalRepo;
 
 import java.sql.SQLException;
@@ -33,8 +37,17 @@ public class DashboardFormController {
     public Label lblCokeIncome;
     public Label lblSpriteIncome;
     public Label lblTotSaleCount;
+    public TextField txtBalance;
+    public TextField txtCash;
+    public JFXButton btnPopcorn;
+    public TextField txtExpense;
+    public JFXButton btnDe;
+    public Label lblOriginalSales;
+    public Label lblTotExpenses;
     TotalRepo totalRepo = new TotalRepo();
     ItemRepo itemRepo = new ItemRepo();
+    ExpenseRepo expenseRepo = new ExpenseRepo();
+    SpendRepo spendRepo = new SpendRepo();
 
     public void initialize() {
         setCellValueFactories();
@@ -59,36 +72,22 @@ public class DashboardFormController {
         pulse.setSpeed(0.3);
         pulse.play();
 
-        tblCart.setFixedCellSize(35);
-        tblCart.prefHeightProperty().bind(tblCart.fixedCellSizeProperty().multiply(5.5));
-        tblCart.setStyle("-fx-font-size: 15px; -fx-font-family: 'URW Gothic L';");
+        tblCart.setFixedCellSize(60);
+        tblCart.prefHeightProperty().bind(tblCart.fixedCellSizeProperty().multiply(5));
+        tblCart.setStyle("-fx-font-size: 23px; -fx-font-family: 'URW Gothic L';");
 
         Platform.runLater(() -> {
-            try {
-                itemRepo.checkEmptyAndInsert();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
 
-            lblTotSaleCount.setText(String.format("Total Sale Count: %d", totalRepo.getSaleCount()));
-                    lblTotIncome.setText(String.format("Total Income: Rs. %.2f", totalRepo.getSaleTotal()));
-            try {
-                lblPopcornIncome.setText(String.format("Popcorn Income: Rs. %.2f", itemRepo.getItemIncome("Popcorn")));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                lblChipsIncome.setText(String.format("Chips Income: Rs. %.2f", itemRepo.getItemIncome("Chips")));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                lblCokeIncome.setText(String.format("Cocacola Income: Rs. %.2f", itemRepo.getItemIncome("Cocacola")));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
                     try {
-                        lblSpriteIncome.setText(String.format("Sprite Income: Rs. %.2f", itemRepo.getItemIncome("Sprite")));
+                        itemRepo.checkEmptyAndInsert();
+                        lblTotSaleCount.setText(String.format("%d", totalRepo.getSaleCount()));
+                        lblTotIncome.setText(String.format("Rs. %.2f", totalRepo.getSaleTotal()));
+                        lblPopcornIncome.setText(String.format("Rs. %.2f", itemRepo.getItemIncome("Popcorn")));
+                        lblChipsIncome.setText(String.format("Rs. %.2f", itemRepo.getItemIncome("Chips")));
+                        lblCokeIncome.setText(String.format("Rs. %.2f", itemRepo.getItemIncome("Coke")));
+                        lblSpriteIncome.setText(String.format("Rs. %.2f", itemRepo.getItemIncome("Sprite")));
+                        lblTotExpenses.setText(String.format("Rs. %.2f", expenseRepo.getExpenseTotal()));
+                        lblOriginalSales.setText(String.format("Rs. %.2f", (totalRepo.getSaleTotal() + expenseRepo.getExpenseTotal())));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -122,73 +121,86 @@ public class DashboardFormController {
 
     public void btnSave(ActionEvent actionEvent) {
 
-        double totalIncome = 0;
-        double popcornIncome = 0;
-        double chipsIncome = 0;
-        double cokeIncome = 0;
-        double spriteIncome = 0;
-        int totalSaleCount = totalRepo.getSaleCount();
-
         try {
-            for (ItemTm item : tblCart.getItems()) {
-                totalIncome += item.getPrice();
-                switch (item.getDescription()) {
-                    case "Popcorn":
-                        popcornIncome += item.getPrice();
-                        itemRepo.updateItemIncome(new Item("Popcorn", popcornIncome));
-                        break;
-                    case "Chips":
-                        chipsIncome += item.getPrice();
-                        itemRepo.updateItemIncome(new Item("Chips", chipsIncome));
-                        break;
-                    case "Cocacola":
-                        cokeIncome += item.getPrice();
-                        itemRepo.updateItemIncome(new Item("Coke", cokeIncome));
-                        break;
-                    case "Sprite":
-                        spriteIncome += item.getPrice();
-                        itemRepo.updateItemIncome(new Item("Sprite", spriteIncome));
-                        break;
+            double totalIncome = 0;
+            double popcornIncome = 0;
+            double chipsIncome = 0;
+            double cokeIncome = 0;
+            double spriteIncome = 0;
+            int totalSaleCount = totalRepo.getSaleCount();
+
+            try {
+                for (ItemTm item : tblCart.getItems()) {
+                    totalIncome += item.getPrice();
+                    switch (item.getDescription()) {
+                        case "Popcorn":
+                            popcornIncome += item.getPrice();
+                            itemRepo.updateItemIncome(new Item("Popcorn", popcornIncome));
+                            break;
+                        case "Chips":
+                            chipsIncome += item.getPrice();
+                            itemRepo.updateItemIncome(new Item("Chips", chipsIncome));
+                            break;
+                        case "Cocacola":
+                            cokeIncome += item.getPrice();
+                            itemRepo.updateItemIncome(new Item("Coke", cokeIncome));
+                            break;
+                        case "Sprite":
+                            spriteIncome += item.getPrice();
+                            itemRepo.updateItemIncome(new Item("Sprite", spriteIncome));
+                            break;
+                    }
                 }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
+
+            if (!tblCart.getItems().isEmpty()) {
+                totalSaleCount =totalSaleCount+1;
+            }
+
+            Total total = new Total(totalSaleCount, totalIncome);
+            totalRepo.saveOrUpdateTotalSales(total);
+
+            Double income = totalRepo.getSaleTotal();
+            int salesCount = totalRepo.getSaleCount();
+            lblTotIncome.setText(String.format("Rs. %.2f", income));
+            lblTotSaleCount.setText(String.format("%d", salesCount));
+
+            Double popcorn = null;
+            Double chips = null;
+            Double coke = null;
+            Double sprite = null;
+
+            try {
+                popcorn = itemRepo.getItemIncome("Popcorn");
+                chips = itemRepo.getItemIncome("Chips");
+                coke = itemRepo.getItemIncome("Coke");
+                sprite = itemRepo.getItemIncome("Sprite");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            lblPopcornIncome.setText(String.format("Rs. %.2f", popcorn));
+            lblChipsIncome.setText(String.format("Rs. %.2f", chips));
+            lblCokeIncome.setText(String.format("Rs. %.2f", coke));
+            lblSpriteIncome.setText(String.format("Rs. %.2f", sprite));
+
+
+            tblCart.getItems().clear();
+            txtTot.clear();
+            txtCash.clear();
+            txtBalance.clear();
+            lblOriginalSales.setText(String.format("Rs. %.2f", (totalRepo.getSaleTotal()+expenseRepo.getExpenseTotal())));
+            btnPopcorn.requestFocus();
+
+            new Alert(Alert.AlertType.INFORMATION, "Sale saved successfully").show();
+        } catch (RuntimeException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to save sale").show();
+            throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        if (!tblCart.getItems().isEmpty()) {
-            totalSaleCount =totalSaleCount+1;
-        }
-
-        Total total = new Total(totalSaleCount, totalIncome);
-        totalRepo.saveOrUpdateTotalSales(total);
-
-        Double income = totalRepo.getSaleTotal();
-        int salesCount = totalRepo.getSaleCount();
-        lblTotIncome.setText(String.format("Total Income: Rs. %.2f", income));
-        lblTotSaleCount.setText(String.format("Total Sale Count: %d", salesCount));
-
-        Double popcorn = null;
-        Double chips = null;
-        Double coke = null;
-        Double sprite = null;
-
-        try {
-            popcorn = itemRepo.getItemIncome("Popcorn");
-            chips = itemRepo.getItemIncome("Chips");
-            coke = itemRepo.getItemIncome("Coke");
-            sprite = itemRepo.getItemIncome("Sprite");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        lblPopcornIncome.setText(String.format("Popcorn Income: Rs. %.2f", popcorn));
-        lblChipsIncome.setText(String.format("Chips Income: Rs. %.2f", chips));
-        lblCokeIncome.setText(String.format("Cocacola Income: Rs. %.2f", coke));
-        lblSpriteIncome.setText(String.format("Sprite Income: Rs. %.2f", sprite));
-
-
-        tblCart.getItems().clear();
-        txtTot.clear();
     }
 
     public void logoutBtnOnAction(ActionEvent actionEvent) {
@@ -308,5 +320,70 @@ public class DashboardFormController {
             total += item.getPrice();
         }
         txtTot.setText(String.valueOf(total));
+    }
+
+    public void onCashReleased(KeyEvent keyEvent) {
+        double cash = 0.0;
+        if (!txtCash.getText().isEmpty()) {
+            cash = Double.parseDouble(txtCash.getText());
+        }
+
+        double total = 0.0;
+        if (!txtTot.getText().isEmpty()) {
+            total = Double.parseDouble(txtTot.getText());
+        }
+
+        double balance = cash - total;
+        if (balance >= 0){
+            txtBalance.setText(String.valueOf(balance));
+        } else {
+            txtBalance.setText("Insufficient Cash");
+        }
+
+        if (keyEvent.getCode().toString().equals("ENTER")) {
+            btnSave(new ActionEvent());
+        }
+    }
+
+    public void onFReleased(KeyEvent keyEvent) {
+        if (keyEvent.getCode().toString().equals("F1")) {
+            txtCash.requestFocus();
+        }
+        if (keyEvent.getCode().toString().equals("F2")) {
+            txtExpense.requestFocus();
+        }
+    }
+
+    public void onTxtExpense(KeyEvent keyEvent) {
+        if (keyEvent.getCode().toString().equals("ENTER")) {
+            btnDeduct(new ActionEvent());
+        }
+    }
+
+    public void btnDeduct(ActionEvent actionEvent) {
+        double expense = 0.0;
+        if (!txtExpense.getText().isEmpty()) {
+            expense = Double.parseDouble(txtExpense.getText());
+        }
+
+        try {
+            spendRepo.expenseDeductAndTotalSaleUpdate(expense);
+            lblTotIncome.setText(String.format("Rs. %.2f", totalRepo.getSaleTotal()));
+            txtExpense.clear();
+
+            lblTotExpenses.setText(String.format("Rs. %.2f", expenseRepo.getExpenseTotal()));
+
+            lblOriginalSales.setText(String.format("Rs. %.2f", (totalRepo.getSaleTotal()+expenseRepo.getExpenseTotal())));
+            new Alert(Alert.AlertType.INFORMATION, "Expense deducted successfully").show();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to deduct expense").show();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void onExpenseReleased(KeyEvent keyEvent) {
+        if (keyEvent.getCode().toString().equals("ENTER")) {
+            btnDeduct(new ActionEvent());
+        }
     }
 }

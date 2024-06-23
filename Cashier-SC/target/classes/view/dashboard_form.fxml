@@ -17,25 +17,20 @@
 
 <!--<?import javafx.scene.control.*?>-->
 
-<AnchorPane prefHeight="526.0" prefWidth="794.0" style="-fx-background-color: #210101;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardFormController">
+<AnchorPane onKeyReleased="#onFReleased" prefHeight="912.0" prefWidth="1270.0" style="-fx-background-color: #210101;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardFormController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2c0e0e" height="155.0" layoutX="26.0" layoutY="31.0" stroke="TRANSPARENT" strokeType="INSIDE" width="467.0" />
-      <ImageView fitHeight="526.0" fitWidth="821.0" layoutX="11.0" opacity="0.04" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@../assets/wallppr.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="imgSprite" fitHeight="98.0" fitWidth="98.0" layoutX="385.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2c0e0e" height="238.0" layoutX="26.0" layoutY="31.0" stroke="TRANSPARENT" strokeType="INSIDE" width="721.0" />
+      <ImageView fx:id="imgSprite" fitHeight="169.0" fitWidth="161.0" layoutX="552.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/Sprite.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="imgCoke" fitHeight="87.0" fitWidth="87.0" layoutX="278.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgCoke" fitHeight="144.0" fitWidth="154.0" layoutX="396.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/coca.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="282.0" layoutY="64.0" onAction="#colaOnAction" prefHeight="109.0" prefWidth="83.0" text="coca" textFill="TRANSPARENT">
+      <JFXButton buttonType="RAISED" layoutX="394.0" layoutY="69.0" onAction="#colaOnAction" prefHeight="154.0" prefWidth="147.0" text="coca" textFill="TRANSPARENT">
          <ripplerFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -52,7 +47,7 @@
                </stops>
             </LinearGradient>
          </ripplerFill></JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="391.0" layoutY="67.0" onAction="#spriteOnAction" prefHeight="109.0" prefWidth="87.0" text="Sprite" textFill="TRANSPARENT">
+      <JFXButton buttonType="RAISED" layoutX="552.0" layoutY="69.0" onAction="#spriteOnAction" prefHeight="154.0" prefWidth="147.0" text="Sprite" textFill="TRANSPARENT">
          <ripplerFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -69,46 +64,49 @@
                </stops>
             </LinearGradient>
          </ripplerFill></JFXButton>
-      <Label layoutX="615.0" layoutY="33.0" text="Total Income" textFill="WHITE">
+      <Label layoutX="831.0" layoutY="40.0" text="Income Analyse" textFill="WHITE" underline="true">
+         <font>
+            <Font name="Loma" size="30.0" />
+         </font></Label>
+      <Label fx:id="lblTotIncome" layoutX="1037.0" layoutY="337.0" prefHeight="40.0" prefWidth="217.0" text="lblTotIncome" textFill="WHITE">
          <font>
             <Font name="Loma" size="25.0" />
          </font></Label>
-      <Label fx:id="lblTotIncome" layoutX="601.0" layoutY="95.0" prefHeight="28.0" prefWidth="207.0" text="lblTotIncome" textFill="WHITE">
+      <TextField fx:id="txtTot" editable="false" layoutX="432.0" layoutY="629.0" prefHeight="55.0" prefWidth="309.0" promptText="Total">
          <font>
-            <Font name="Loma" size="14.0" />
-         </font></Label>
-      <TextField fx:id="txtTot" layoutX="28.0" layoutY="225.0" prefHeight="24.0" prefWidth="216.0" promptText="Total">
-         <font>
-            <Font name="Loma" size="13.0" />
+            <Font name="Loma" size="23.0" />
          </font></TextField>
-      <JFXButton buttonType="RAISED" layoutX="406.0" layoutY="221.0" onAction="#btnSave" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: #0e9953; -fx-background-radius: 10 0 10 0;" text="Save" textFill="#170000">
+      <JFXButton buttonType="RAISED" layoutX="585.0" layoutY="839.0" onAction="#btnSave" prefHeight="55.0" prefWidth="155.0" style="-fx-background-color: #0e9953; -fx-background-radius: 10 0 10 0;" text="Checkout" textFill="#170000">
          <font>
             <Font name="Loma Bold" size="13.0" />
          </font></JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="688.0" layoutY="462.0" onAction="#logoutBtnOnAction" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: #f05656; -fx-background-radius: 20;" text="Logout" />
-      <TableView fx:id="tblCart" layoutX="26.0" layoutY="263.0" prefHeight="230.0" prefWidth="467.0">
+      <JFXButton buttonType="RAISED" layoutX="983.0" layoutY="831.0" onAction="#logoutBtnOnAction" prefHeight="55.0" prefWidth="161.0" style="-fx-background-color: #f05656; -fx-background-radius: 20;" text="Logout">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></JFXButton>
+      <TableView fx:id="tblCart" layoutX="26.0" layoutY="299.0" prefHeight="307.0" prefWidth="721.0">
         <columns>
           <TableColumn fx:id="colItem" prefWidth="192.0" text="Item" />
-            <TableColumn fx:id="colQty" prefWidth="92.0" text="qty" />
-          <TableColumn fx:id="colPrice" prefWidth="182.0" text="Price" />
+            <TableColumn fx:id="colQty" prefWidth="259.0" text="qty" />
+          <TableColumn fx:id="colPrice" prefWidth="263.0" text="Price" />
         </columns>
       </TableView>
-      <ImageView fx:id="imgPopcorn" fitHeight="106.0" fitWidth="98.0" layoutX="38.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgPopcorn" fitHeight="154.0" fitWidth="147.0" layoutX="55.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/popcorn.png" />
          </image>
       </ImageView>
-      <Label layoutX="40.0" layoutY="40.0" text="Items" textFill="WHITE">
+      <Label layoutX="40.0" layoutY="40.0" text="Items" textFill="WHITE" underline="true">
          <font>
-            <Font name="Loma" size="16.0" />
+            <Font name="Loma" size="30.0" />
          </font>
       </Label>
-      <ImageView fx:id="imgChips" fitHeight="62.0" fitWidth="87.0" layoutX="163.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgChips" fitHeight="154.0" fitWidth="147.0" layoutX="220.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/chips.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="44.0" layoutY="75.0" onAction="#popcornBtnOnAction" prefHeight="87.0" prefWidth="87.0" text="popcorn" textFill="TRANSPARENT">
+      <JFXButton fx:id="btnPopcorn" buttonType="RAISED" layoutX="55.0" layoutY="73.0" onAction="#popcornBtnOnAction" prefHeight="154.0" prefWidth="147.0" text="popcorn" textFill="TRANSPARENT">
          <ripplerFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -125,7 +123,7 @@
                </stops>
             </LinearGradient>
          </ripplerFill></JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="156.0" layoutY="75.0" onAction="#chipsBtnOnAction" prefHeight="87.0" prefWidth="98.0" text="Chips" textFill="TRANSPARENT">
+      <JFXButton buttonType="RAISED" layoutX="220.0" layoutY="73.0" onAction="#chipsBtnOnAction" prefHeight="154.0" prefWidth="147.0" text="Chips" textFill="TRANSPARENT">
          <ripplerFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -142,30 +140,128 @@
                </stops>
             </LinearGradient>
          </ripplerFill></JFXButton>
-      <Line endX="100.0" endY="413.0" layoutX="485.0" layoutY="87.0" opacity="0.47" startX="100.0" startY="-61.0" stroke="WHITE" strokeWidth="0.5" />
-      <Label fx:id="lblPopcornIncome" layoutX="601.0" layoutY="123.0" prefHeight="28.0" prefWidth="207.0" text="lblPopcornIncome" textFill="WHITE">
+      <Line endX="100.0" endY="809.0" layoutX="693.0" layoutY="87.0" opacity="0.47" startX="100.0" startY="-61.0" stroke="WHITE" strokeWidth="0.5" />
+      <Label fx:id="lblPopcornIncome" layoutX="1027.0" layoutY="113.0" prefHeight="32.0" prefWidth="217.0" text="lblPopcornIncome" textFill="WHITE">
          <font>
-            <Font name="Loma" size="14.0" />
+            <Font name="Loma" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="lblChipsIncome" layoutX="601.0" layoutY="149.0" prefHeight="28.0" prefWidth="207.0" text="lblChipsIncome" textFill="WHITE">
+      <Label fx:id="lblChipsIncome" layoutX="1027.0" layoutY="147.0" prefHeight="32.0" prefWidth="217.0" text="lblChipsIncome" textFill="WHITE">
          <font>
-            <Font name="Loma" size="14.0" />
+            <Font name="Loma" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="lblCokeIncome" layoutX="601.0" layoutY="179.0" prefHeight="28.0" prefWidth="207.0" text="lblCokeIncome" textFill="WHITE">
+      <Label fx:id="lblCokeIncome" layoutX="1027.0" layoutY="183.0" prefHeight="32.0" prefWidth="217.0" text="lblCokeIncome" textFill="WHITE">
          <font>
-            <Font name="Loma" size="14.0" />
+            <Font name="Loma" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="lblSpriteIncome" layoutX="601.0" layoutY="210.0" prefHeight="28.0" prefWidth="207.0" text="lblSpriteIncome" textFill="WHITE">
+      <Label fx:id="lblSpriteIncome" layoutX="1027.0" layoutY="220.0" prefHeight="32.0" prefWidth="217.0" text="lblSpriteIncome" textFill="WHITE">
          <font>
-            <Font name="Loma" size="14.0" />
+            <Font name="Loma" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="lblTotSaleCount" layoutX="601.0" layoutY="239.0" prefHeight="28.0" prefWidth="207.0" text="lblTotSaleCount" textFill="WHITE">
+      <Label fx:id="lblTotSaleCount" layoutX="1037.0" layoutY="301.0" prefHeight="40.0" prefWidth="217.0" text="lblTotSaleCount" textFill="WHITE">
          <font>
-            <Font name="Loma" size="14.0" />
+            <Font name="Loma" size="25.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtCash" layoutX="432.0" layoutY="697.0" onKeyReleased="#onCashReleased" prefHeight="55.0" prefWidth="309.0" promptText="Cash(F1)">
+         <font>
+            <Font name="Loma" size="23.0" />
+         </font>
+      </TextField>
+      <Label fx:id="lblTotSaleCount1" layoutX="109.0" layoutY="629.0" prefHeight="62.0" prefWidth="309.0" text="Total" textFill="WHITE">
+         <font>
+            <Font name="Loma" size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTotSaleCount11" layoutX="109.0" layoutY="697.0" prefHeight="55.0" prefWidth="309.0" text="Cash" textFill="WHITE">
+         <font>
+            <Font name="Loma" size="23.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtBalance" editable="false" layoutX="432.0" layoutY="765.0" prefHeight="55.0" prefWidth="309.0" promptText="Balance">
+         <font>
+            <Font name="Loma" size="23.0" />
+         </font>
+      </TextField>
+      <Label fx:id="lblTotSaleCount111" layoutX="113.0" layoutY="765.0" prefHeight="55.0" prefWidth="309.0" text="Balance" textFill="WHITE">
+         <font>
+            <Font name="Loma" size="23.0" />
+         </font>
+      </Label>
+      <Line endX="527.0" endY="275.0" layoutX="719.0" layoutY="130.0" opacity="0.47" startX="113.0" startY="275.0" stroke="WHITE" strokeWidth="0.5" />
+      <Label layoutX="831.0" layoutY="414.0" text="Expense" textFill="WHITE" underline="true">
+         <font>
+            <Font name="Loma" size="30.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtExpense" layoutX="1026.0" layoutY="462.0" onKeyReleased="#onExpenseReleased" prefHeight="55.0" prefWidth="217.0" promptText="Expense(F2)">
+         <font>
+            <Font name="Loma" size="23.0" />
+         </font>
+      </TextField>
+      <Label fx:id="lblTotSaleCount12" layoutX="830.0" layoutY="462.0" prefHeight="62.0" prefWidth="198.0" text="Amount" textFill="WHITE">
+         <font>
+            <Font name="Loma" size="23.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnDe" buttonType="RAISED" layoutX="1089.0" layoutY="582.0" onAction="#btnDeduct" prefHeight="55.0" prefWidth="155.0" style="-fx-background-color: #0e9953; -fx-background-radius: 10 0 10 0;" text="Deduct" textFill="#170000">
+         <font>
+            <Font name="Loma Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <Line endX="527.0" endY="275.0" layoutX="718.0" layoutY="532.0" opacity="0.47" startX="113.0" startY="275.0" stroke="WHITE" strokeWidth="0.5" />
+      <Label fx:id="lblPopcornIncome1" layoutX="826.0" layoutY="113.0" prefHeight="32.0" prefWidth="198.0" text="Popcorn Income:" textFill="WHITE">
+         <font>
+            <Font name="Loma" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPopcornIncome11" layoutX="826.0" layoutY="147.0" prefHeight="32.0" prefWidth="198.0" text="Chips Income: " textFill="WHITE">
+         <font>
+            <Font name="Loma" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPopcornIncome12" layoutX="826.0" layoutY="183.0" prefHeight="32.0" prefWidth="198.0" text="Cocacola Income: " textFill="WHITE">
+         <font>
+            <Font name="Loma" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPopcornIncome13" layoutX="826.0" layoutY="220.0" prefHeight="32.0" prefWidth="198.0" text="Sprite Income: " textFill="WHITE">
+         <font>
+            <Font name="Loma" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTotSaleCount2" layoutX="826.0" layoutY="301.0" prefHeight="40.0" prefWidth="207.0" text="Total Sale Count: " textFill="WHITE">
+         <font>
+            <Font name="Loma" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTotSaleCount21" layoutX="826.0" layoutY="337.0" prefHeight="40.0" prefWidth="198.0" text="Total Income: " textFill="WHITE">
+         <font>
+            <Font name="Loma" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTotExpenses" layoutX="1029.0" layoutY="530.0" prefHeight="40.0" prefWidth="217.0" text="lblTotSaleCount" textFill="WHITE">
+         <font>
+            <Font name="Loma" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTotSaleCount22" layoutX="827.0" layoutY="530.0" prefHeight="40.0" prefWidth="198.0" text="Total Expenses: " textFill="WHITE">
+         <font>
+            <Font name="Loma" size="25.0" />
+         </font>
+      </Label>
+      <Line endX="527.0" endY="275.0" layoutX="720.0" layoutY="401.0" opacity="0.47" startX="113.0" startY="275.0" stroke="WHITE" strokeWidth="0.5" />
+      <Label fx:id="lblOriginalSales" layoutX="1036.0" layoutY="719.0" prefHeight="40.0" prefWidth="217.0" text="lblTotSaleCount" textFill="WHITE">
+         <font>
+            <Font name="Loma" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTotSaleCount221" layoutX="834.0" layoutY="719.0" prefHeight="40.0" prefWidth="198.0" text="Original Sales:" textFill="WHITE">
+         <font>
+            <Font name="Loma" size="25.0" />
          </font>
       </Label>
    </children>

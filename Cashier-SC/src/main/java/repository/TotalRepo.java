@@ -70,4 +70,14 @@ public class TotalRepo {
         }
     }
 
+    public void updateTotalSale(double expense) {
+        try {
+            Connection connection = DbConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE total_sales SET total_sales = total_sales - ? WHERE id = 1");
+            preparedStatement.setDouble(1, expense);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -15,3 +15,8 @@ create table total_sales(
                             total_sales_count int,
                             total_sales decimal(10,2)
 );
+
+create table expense(
+                        id int primary key auto_increment,
+                        expense decimal(10,2)
+);
