@@ -26,12 +26,12 @@ public class ItemRepo {
             preparedStatement.executeUpdate();
 
             preparedStatement = connection.prepareStatement("INSERT INTO total_per_item(item_name, total) VALUES (?,?)");
-            preparedStatement.setString(1, "Coke");
+            preparedStatement.setString(1, "Drink");
             preparedStatement.setInt(2, 0);
             preparedStatement.executeUpdate();
 
             preparedStatement = connection.prepareStatement("INSERT INTO total_per_item(item_name, total) VALUES (?,?)");
-            preparedStatement.setString(1, "Sprite");
+            preparedStatement.setString(1, "Combo");
             preparedStatement.setInt(2, 0);
             preparedStatement.executeUpdate();
         }

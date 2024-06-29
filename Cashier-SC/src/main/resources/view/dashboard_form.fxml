@@ -17,12 +17,12 @@
 
 <!--<?import javafx.scene.control.*?>-->
 
-<AnchorPane onKeyReleased="#onFReleased" prefHeight="912.0" prefWidth="1270.0" style="-fx-background-color: #210101;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardFormController">
+<AnchorPane fx:id="root" onKeyReleased="#onFReleased" prefHeight="912.0" prefWidth="1270.0" style="-fx-background-color: #210101;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardFormController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2c0e0e" height="238.0" layoutX="26.0" layoutY="31.0" stroke="TRANSPARENT" strokeType="INSIDE" width="721.0" />
-      <ImageView fx:id="imgSprite" fitHeight="169.0" fitWidth="161.0" layoutX="552.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgSprite" fitHeight="169.0" fitWidth="161.0" layoutX="555.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../assets/Sprite.png" />
+            <Image url="@../assets/Combo.png" />
          </image>
       </ImageView>
       <ImageView fx:id="imgCoke" fitHeight="144.0" fitWidth="154.0" layoutX="396.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
@@ -47,7 +47,7 @@
                </stops>
             </LinearGradient>
          </ripplerFill></JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="552.0" layoutY="69.0" onAction="#spriteOnAction" prefHeight="154.0" prefWidth="147.0" text="Sprite" textFill="TRANSPARENT">
+      <JFXButton buttonType="RAISED" layoutX="549.0" layoutY="70.0" onAction="#spriteOnAction" prefHeight="161.0" prefWidth="155.0" text="Sprite" textFill="TRANSPARENT">
          <ripplerFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -64,7 +64,7 @@
                </stops>
             </LinearGradient>
          </ripplerFill></JFXButton>
-      <Label layoutX="831.0" layoutY="40.0" text="Income Analyse" textFill="WHITE" underline="true">
+      <Label layoutX="831.0" layoutY="40.0" prefHeight="49.0" prefWidth="227.0" text="Income Analysis" textFill="WHITE" underline="true">
          <font>
             <Font name="Loma" size="30.0" />
          </font></Label>
@@ -88,7 +88,7 @@
         <columns>
           <TableColumn fx:id="colItem" prefWidth="192.0" text="Item" />
             <TableColumn fx:id="colQty" prefWidth="259.0" text="qty" />
-          <TableColumn fx:id="colPrice" prefWidth="263.0" text="Price" />
+          <TableColumn fx:id="colPrice" prefWidth="269.0" text="Price" />
         </columns>
       </TableView>
       <ImageView fx:id="imgPopcorn" fitHeight="154.0" fitWidth="147.0" layoutX="55.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
@@ -166,7 +166,7 @@
             <Font name="Loma" size="25.0" />
          </font>
       </Label>
-      <TextField fx:id="txtCash" layoutX="432.0" layoutY="697.0" onKeyReleased="#onCashReleased" prefHeight="55.0" prefWidth="309.0" promptText="Cash(F1)">
+      <TextField fx:id="txtCash" layoutX="432.0" layoutY="697.0" onKeyReleased="#onCashReleased" onKeyTyped="#onCashTyped" prefHeight="55.0" prefWidth="309.0" promptText="Cash(F1)">
          <font>
             <Font name="Loma" size="23.0" />
          </font>
@@ -197,7 +197,7 @@
             <Font name="Loma" size="30.0" />
          </font>
       </Label>
-      <TextField fx:id="txtExpense" layoutX="1026.0" layoutY="462.0" onKeyReleased="#onExpenseReleased" prefHeight="55.0" prefWidth="217.0" promptText="Expense(F2)">
+      <TextField fx:id="txtExpense" layoutX="1026.0" layoutY="462.0" onKeyReleased="#onExpenseReleased" onKeyTyped="#onExpenseTyped" prefHeight="55.0" prefWidth="217.0" promptText="Expense(F2)">
          <font>
             <Font name="Loma" size="23.0" />
          </font>
@@ -223,12 +223,12 @@
             <Font name="Loma" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="lblPopcornIncome12" layoutX="826.0" layoutY="183.0" prefHeight="32.0" prefWidth="198.0" text="Cocacola Income: " textFill="WHITE">
+      <Label fx:id="lblPopcornIncome12" layoutX="826.0" layoutY="183.0" prefHeight="32.0" prefWidth="198.0" text="Drink Income: " textFill="WHITE">
          <font>
             <Font name="Loma" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="lblPopcornIncome13" layoutX="826.0" layoutY="220.0" prefHeight="32.0" prefWidth="198.0" text="Sprite Income: " textFill="WHITE">
+      <Label fx:id="lblPopcornIncome13" layoutX="826.0" layoutY="220.0" prefHeight="32.0" prefWidth="198.0" text="Combo Income: " textFill="WHITE">
          <font>
             <Font name="Loma" size="20.0" />
          </font>

@@ -6,10 +6,15 @@ import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Item;
 import model.Total;
@@ -19,6 +24,7 @@ import repository.ItemRepo;
 import repository.SpendRepo;
 import repository.TotalRepo;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class DashboardFormController {
@@ -44,6 +50,8 @@ public class DashboardFormController {
     public JFXButton btnDe;
     public Label lblOriginalSales;
     public Label lblTotExpenses;
+
+    public AnchorPane root;
     TotalRepo totalRepo = new TotalRepo();
     ItemRepo itemRepo = new ItemRepo();
     ExpenseRepo expenseRepo = new ExpenseRepo();
@@ -84,8 +92,8 @@ public class DashboardFormController {
                         lblTotIncome.setText(String.format("Rs. %.2f", totalRepo.getSaleTotal()));
                         lblPopcornIncome.setText(String.format("Rs. %.2f", itemRepo.getItemIncome("Popcorn")));
                         lblChipsIncome.setText(String.format("Rs. %.2f", itemRepo.getItemIncome("Chips")));
-                        lblCokeIncome.setText(String.format("Rs. %.2f", itemRepo.getItemIncome("Coke")));
-                        lblSpriteIncome.setText(String.format("Rs. %.2f", itemRepo.getItemIncome("Sprite")));
+                        lblCokeIncome.setText(String.format("Rs. %.2f", itemRepo.getItemIncome("Drink")));
+                        lblSpriteIncome.setText(String.format("Rs. %.2f", itemRepo.getItemIncome("Combo")));
                         lblTotExpenses.setText(String.format("Rs. %.2f", expenseRepo.getExpenseTotal()));
                         lblOriginalSales.setText(String.format("Rs. %.2f", (totalRepo.getSaleTotal() + expenseRepo.getExpenseTotal())));
                     } catch (SQLException e) {
@@ -104,7 +112,7 @@ public class DashboardFormController {
     }
 
     public void popcornBtnOnAction(ActionEvent actionEvent) {
-        addItemToCart("Popcorn", 200);
+        addItemToCart("Popcorn", 150);
     }
 
     public void chipsBtnOnAction(ActionEvent actionEvent) {
@@ -112,11 +120,11 @@ public class DashboardFormController {
     }
 
     public void colaOnAction(ActionEvent actionEvent) {
-        addItemToCart("Cocacola", 300);
+        addItemToCart("Drink", 150);
     }
 
     public void spriteOnAction(ActionEvent actionEvent) {
-        addItemToCart("Sprite", 300);
+        addItemToCart("Combo", 350);
     }
 
     public void btnSave(ActionEvent actionEvent) {
@@ -125,8 +133,8 @@ public class DashboardFormController {
             double totalIncome = 0;
             double popcornIncome = 0;
             double chipsIncome = 0;
-            double cokeIncome = 0;
-            double spriteIncome = 0;
+            double drinkIncome = 0;
+            double comboIncome = 0;
             int totalSaleCount = totalRepo.getSaleCount();
 
             try {
@@ -141,13 +149,13 @@ public class DashboardFormController {
                             chipsIncome += item.getPrice();
                             itemRepo.updateItemIncome(new Item("Chips", chipsIncome));
                             break;
-                        case "Cocacola":
-                            cokeIncome += item.getPrice();
-                            itemRepo.updateItemIncome(new Item("Coke", cokeIncome));
+                        case "Drink":
+                            drinkIncome += item.getPrice();
+                            itemRepo.updateItemIncome(new Item("Drink", drinkIncome));
                             break;
-                        case "Sprite":
-                            spriteIncome += item.getPrice();
-                            itemRepo.updateItemIncome(new Item("Sprite", spriteIncome));
+                        case "Combo":
+                            comboIncome += item.getPrice();
+                            itemRepo.updateItemIncome(new Item("Combo", comboIncome));
                             break;
                     }
                 }
@@ -169,22 +177,22 @@ public class DashboardFormController {
 
             Double popcorn = null;
             Double chips = null;
-            Double coke = null;
-            Double sprite = null;
+            Double drink = null;
+            Double combo = null;
 
             try {
                 popcorn = itemRepo.getItemIncome("Popcorn");
                 chips = itemRepo.getItemIncome("Chips");
-                coke = itemRepo.getItemIncome("Coke");
-                sprite = itemRepo.getItemIncome("Sprite");
+                drink = itemRepo.getItemIncome("Drink");
+                combo = itemRepo.getItemIncome("Combo");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
 
             lblPopcornIncome.setText(String.format("Rs. %.2f", popcorn));
             lblChipsIncome.setText(String.format("Rs. %.2f", chips));
-            lblCokeIncome.setText(String.format("Rs. %.2f", coke));
-            lblSpriteIncome.setText(String.format("Rs. %.2f", sprite));
+            lblCokeIncome.setText(String.format("Rs. %.2f", drink));
+            lblSpriteIncome.setText(String.format("Rs. %.2f", combo));
 
 
             tblCart.getItems().clear();
@@ -204,6 +212,18 @@ public class DashboardFormController {
     }
 
     public void logoutBtnOnAction(ActionEvent actionEvent) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/login_form.fxml"));
+            Parent rootNode=fxmlLoader.load();
+            Scene scene = new Scene(rootNode);
+
+            Stage stage = (Stage) this.root.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.setTitle("Dashboard Form");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void addItemToCart(String description, double price) {
@@ -308,8 +328,8 @@ public class DashboardFormController {
         switch (description) {
             case "Popcorn": return 200;
             case "Chips": return 100;
-            case "Cocacola": return 300;
-            case "Sprite": return 300;
+            case "Drink": return 300;
+            case "Combo": return 300;
             default: return 0;
         }
     }
@@ -386,4 +406,19 @@ public class DashboardFormController {
             btnDeduct(new ActionEvent());
         }
     }
+    // add validations to the text fields
+    public void onCashTyped(KeyEvent keyEvent) {
+        if (!txtCash.getText().matches("^[0-9]*\\.?[0-9]*$")) {
+            txtCash.clear();
+            new Alert(Alert.AlertType.ERROR, "Invalid Format").show();
+        }
+    }
+
+    public void onExpenseTyped(KeyEvent keyEvent) {
+        if (!txtExpense.getText().matches("^[0-9]*\\.?[0-9]*$")) {
+            txtExpense.clear();
+            new Alert(Alert.AlertType.ERROR, "Invalid Format").show();
+        }
+    }
+
 }
